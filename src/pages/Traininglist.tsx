@@ -28,7 +28,10 @@ function Traininglist() {
   return (
     <div>
       <h1>Training List</h1>
-      <TrainingTable trainingsData={Trainings} />
+      <TrainingTable
+        trainingsData={Trainings}
+        fetchTrainings={fetchTrainings}
+      />
     </div>
   );
 }

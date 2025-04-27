@@ -25,6 +25,13 @@ export type Customer = {
     };
 }
 
+export type TrainingDTO = {
+    date: string;
+    duration: string;
+    activity: string;
+    customer: string;
+}
+
 export type CustomerDTO = {
     firstname: string;
     lastname: string;
@@ -37,4 +44,15 @@ export type CustomerDTO = {
 
 export type CustomerDataProps = {
   customersData: Customer[];
+  fetschCustomers: () => void;
+};
+
+export type EditCustomerProps = {
+  customer: Customer;
+  fetchCustomers: () => void;
+};
+
+export type TrainingTableProps = {
+  trainingsData: Training[];
+  fetchTrainings: () => void;
 };

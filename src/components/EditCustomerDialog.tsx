@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CustomerDTO } from "../types";
+import { CustomerDTO, EditCustomerProps } from "../types";
 import {
   Button,
   Dialog,
@@ -9,41 +9,27 @@ import {
   Snackbar,
   TextField,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import { GridActionsCellItem } from "@mui/x-data-grid";
 
-type AddCustomerProps = {
-  fetchCustomers: () => void;
-};
-
-export default function AddCustomer(props: AddCustomerProps) {
-  const [open, setOpen] = useState(false);
+export default function AddCustomer(props: EditCustomerProps) {
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [openSnack, setOpenSnack] = useState(false);
   const [customer, setCustomer] = useState<CustomerDTO>({
-    firstname: "",
-    lastname: "",
-    streetaddress: "",
-    postcode: "",
-    city: "",
-    email: "",
-    phone: "",
+    firstname: props.customer.firstname,
+    lastname: props.customer.lastname,
+    streetaddress: props.customer.streetaddress,
+    postcode: props.customer.postcode,
+    city: props.customer.city,
+    email: props.customer.email,
+    phone: props.customer.phone,
   });
 
-  const handleOpen = () => {
-    setOpen(true);
+  const handleOpenDialog = () => {
+    setDialogOpen(true);
   };
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const handleAfterSubmit = () => {
-    setCustomer({
-      firstname: "",
-      lastname: "",
-      streetaddress: "",
-      postcode: "",
-      city: "",
-      email: "",
-      phone: "",
-    });
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
   };
 
   const handleSubmit = () => {
@@ -56,23 +42,19 @@ export default function AddCustomer(props: AddCustomerProps) {
       return;
     }
     //http-pyyntö
-    fetch(
-      "https://customer-rest-service-frontend-personaltrainer.2.rahtiapp.fi/api/customers",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(customer),
-      }
-    )
+    fetch(`${props.customer._links.self.href}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(customer),
+    })
       .then((Response) => {
         if (!Response.ok) throw new Error("response was not ok");
         return Response.json();
       })
-      .then(() => handleAfterSubmit())
       .then(() => props.fetchCustomers())
-      .then(() => handleClose())
+      .then(() => handleCloseDialog())
       .then(() => setOpenSnack(true))
       .catch((e) => console.log(e));
   };
@@ -90,17 +72,13 @@ export default function AddCustomer(props: AddCustomerProps) {
 
   return (
     <>
-      <Button
-        color="success"
-        variant="outlined"
-        startIcon={<AddIcon />}
-        onClick={handleOpen}
-        style={{ margin: "20px" }}
-      >
-        Add Customer
-      </Button>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Add Customer</DialogTitle>
+      <GridActionsCellItem
+        icon={<EditIcon />}
+        label="Edit"
+        onClick={handleOpenDialog}
+      />
+      <Dialog open={dialogOpen} onClose={handleCloseDialog}>
+        <DialogTitle>Edit Customer</DialogTitle>
         <DialogContent>
           {fields.map((field) => (
             <TextField
@@ -114,7 +92,7 @@ export default function AddCustomer(props: AddCustomerProps) {
               type={field.type}
               fullWidth
               variant="standard"
-              value={customer[field.id as keyof CustomerDTO] || ""}
+              value={customer[field.id as keyof CustomerDTO]}
               onChange={(e) =>
                 setCustomer({ ...customer, [field.id]: e.target.value })
               }
@@ -122,7 +100,7 @@ export default function AddCustomer(props: AddCustomerProps) {
           ))}
         </DialogContent>
         <DialogActions>
-          <Button variant="outlined" color="error" onClick={handleClose}>
+          <Button variant="outlined" color="error" onClick={handleCloseDialog}>
             Cancel
           </Button>
           <Button variant="outlined" color="success" onClick={handleSubmit}>
@@ -134,7 +112,7 @@ export default function AddCustomer(props: AddCustomerProps) {
         open={openSnack}
         autoHideDuration={4000}
         onClose={() => setOpenSnack(false)}
-        message="Customer added!"
+        message="Customer edited!"
       />
     </>
   );

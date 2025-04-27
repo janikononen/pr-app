@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Customer } from "../types";
 import Customertable from "../components/Customertable";
-import AddCustomer from "../components/AddCustomer"; // Adjust the path as needed
+import AddCustomer from "../components/AddCustomerDialog"; // Adjust the path as needed
 
 function Customerlist() {
   const [customers, setCustomers] = useState<Customer[]>([]);
@@ -29,8 +29,11 @@ function Customerlist() {
   return (
     <div>
       <h1>Customer List</h1>
-      <AddCustomer fetchCustomers={fetchCustomers} />
-      <Customertable customersData={customers} />
+      <AddCustomer fetschCustomers={fetchCustomers} customersData={customers} />
+      <Customertable
+        customersData={customers}
+        fetschCustomers={fetchCustomers}
+      />
     </div>
   );
 }

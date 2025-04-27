@@ -1,47 +1,87 @@
-import { Training } from "../types";
+import { TrainingTableProps } from "../types";
 import dayjs from "dayjs";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Box } from "@mui/material";
+import {
+  DataGrid,
+  GridActionsCellItem,
+  GridColDef,
+  GridRenderCellParams,
+} from "@mui/x-data-grid";
+import { Box, Snackbar } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { useState } from "react";
 
-// tyyppi
-type TrainingTableProps = {
-  trainingsData: Training[];
-};
+export default function TrainingTable(props: TrainingTableProps) {
+  const [deleteOpenSnack, setDeleteOpenSnack] = useState(false);
 
-export default function TrainingTable({ trainingsData }: TrainingTableProps) {
   //päivämäärämuotoilija dayjs
   const dateFormatter = (dateString: string) => {
     return dayjs(dateString).format("DD.MM.YYYY");
   };
 
   // sarakkeet taulukossa
-  const columns: GridColDef<(typeof trainingsData)[number]>[] = [
+  const columns: GridColDef<(typeof props.trainingsData)[number]>[] = [
     {
       field: "date",
       headerName: "Date",
-      flex: 1, // Jakaa tilan tasaisesti
+      flex: 1,
       valueGetter: (_, trainingsData) => dateFormatter(trainingsData.date),
     },
-    { field: "activity", headerName: "Activity", flex: 1 }, // Jakaa tilan tasaisesti
+    { field: "activity", headerName: "Activity", flex: 1 },
     {
       field: "customer",
       headerName: "Customer",
-      flex: 1, // Jakaa tilan tasaisesti
+      flex: 1,
       valueGetter: (_, trainingsData) =>
         trainingsData.customer.firstname +
         " " +
         trainingsData.customer.lastname,
     },
-    { field: "duration", headerName: "Duration(min)", flex: 1 }, // Jakaa tilan tasaisesti
+    { field: "duration", headerName: "Duration(min)", flex: 1 },
+    {
+      field: "actions",
+      headerName: "Actions",
+      flex: 0.4,
+      sortable: false,
+      renderCell: (params: GridRenderCellParams) => {
+        return (
+          <>
+            <GridActionsCellItem
+              icon={<DeleteIcon />}
+              label="Delete"
+              onClick={() => handleDelete(params)}
+            />
+          </>
+        );
+      },
+    },
   ];
+
+  const handleDelete = (params: GridRenderCellParams) => {
+    if (window.confirm("Are you sure?")) {
+      fetch(
+        "https://customer-rest-service-frontend-personaltrainer.2.rahtiapp.fi/api/trainings/" +
+          params.id,
+        {
+          method: "DELETE",
+        }
+      )
+        .then((response) => {
+          if (!response.ok) throw new Error("response was not ok");
+          return response.json();
+        })
+        .then(() => setDeleteOpenSnack(true))
+        .then(() => props.fetchTrainings())
+        .catch((e) => console.log(e));
+    }
+  };
 
   // itse taulukon määritys
   return (
     <Box sx={{ height: "100%", width: "100%" }}>
       <DataGrid
-        rows={trainingsData}
+        rows={props.trainingsData}
         columns={columns}
-        getRowId={(trainingsData) => trainingsData.id}
+        getRowId={(row) => row.id}
         initialState={{
           pagination: {
             paginationModel: {
@@ -51,6 +91,12 @@ export default function TrainingTable({ trainingsData }: TrainingTableProps) {
         }}
         pageSizeOptions={[10]}
       ></DataGrid>
+      <Snackbar
+        open={deleteOpenSnack}
+        autoHideDuration={4000}
+        onClose={() => setDeleteOpenSnack(false)}
+        message="Training deleted!"
+      />
     </Box>
   );
 }

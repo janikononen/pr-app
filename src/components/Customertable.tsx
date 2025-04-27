@@ -1,10 +1,20 @@
-import { CustomerDataProps } from "../types";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Box } from "@mui/material";
+import { Customer, CustomerDataProps } from "../types";
+import {
+  DataGrid,
+  GridActionsCellItem,
+  GridColDef,
+  GridRenderCellParams,
+} from "@mui/x-data-grid";
+import { Box, Snackbar } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditCustomer from "./EditCustomerDialog";
+import { useState } from "react";
+import AddTrainingToCustomerDialog from "./AddTrainingToCustomerDialog";
 
-export default function Customertable({ customersData }: CustomerDataProps) {
+export default function Customertable(props: CustomerDataProps) {
+  const [deleteOpenSnack, setDeleteOpenSnack] = useState(false);
   // sarakkeet taulukossa
-  const columns: GridColDef<(typeof customersData)[number]>[] = [
+  const columns: GridColDef<(typeof props.customersData)[number]>[] = [
     {
       field: "firstname",
       headerName: "First Name",
@@ -17,17 +27,57 @@ export default function Customertable({ customersData }: CustomerDataProps) {
       flex: 1,
     },
 
-    { field: "postcode", headerName: "Postcode", flex: 1 },
-    { field: "city", headerName: "City", flex: 1 },
-    { field: "email", headerName: "Email", flex: 1 },
-    { field: "phone", headerName: "Phone", flex: 1 },
+    { field: "postcode", headerName: "Postcode", flex: 0.6 },
+    { field: "city", headerName: "City", flex: 0.8 },
+    { field: "email", headerName: "Email", flex: 1.2 },
+    { field: "phone", headerName: "Phone", flex: 0.8 },
+    {
+      field: "actions",
+      headerName: "Actions",
+      flex: 0.8,
+      sortable: false,
+      renderCell: (params: GridRenderCellParams) => {
+        return (
+          <>
+            <EditCustomer
+              customer={params.row as Customer}
+              fetchCustomers={props.fetschCustomers}
+            />
+            <GridActionsCellItem
+              icon={<DeleteIcon />}
+              label="Delete"
+              onClick={() => handleDelete(params)}
+            />
+            <AddTrainingToCustomerDialog
+              customer={params.row as Customer}
+              fetchCustomers={props.fetschCustomers}
+            />
+          </>
+        );
+      },
+    },
   ];
+
+  const handleDelete = (params: GridRenderCellParams) => {
+    if (window.confirm("Are you sure?")) {
+      fetch((params.row as Customer)._links.self.href, {
+        method: "DELETE",
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error("response was not ok");
+          return response.json();
+        })
+        .then(() => setDeleteOpenSnack(true))
+        .then(() => props.fetschCustomers())
+        .catch((e) => console.log(e));
+    }
+  };
 
   // itse taulukon määritys
   return (
     <Box sx={{ height: "100%", width: "100%" }}>
       <DataGrid
-        rows={customersData}
+        rows={props.customersData}
         columns={columns}
         getRowId={(customersData) => customersData._links.self.href}
         initialState={{
@@ -39,6 +89,12 @@ export default function Customertable({ customersData }: CustomerDataProps) {
         }}
         pageSizeOptions={[10]}
       ></DataGrid>
+      <Snackbar
+        open={deleteOpenSnack}
+        autoHideDuration={4000}
+        onClose={() => setDeleteOpenSnack(false)}
+        message="Customer deleted!"
+      />
     </Box>
   );
 }
