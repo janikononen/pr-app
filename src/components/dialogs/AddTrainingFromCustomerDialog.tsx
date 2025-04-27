@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { EditCustomerProps, TrainingDTO } from "../types";
+import { EditCustomerProps, TrainingDTO } from "../../types";
 import {
   Button,
   Dialog,

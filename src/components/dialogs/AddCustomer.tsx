@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CustomerDataProps, CustomerDTO } from "../types";
+import { CustomerDataProps, CustomerDTO } from "../../types";
 import {
   Button,
   Dialog,

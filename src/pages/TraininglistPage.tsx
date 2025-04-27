@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Training } from "../types";
-import TrainingTable from "../components/TrainingTable";
+import TrainingTable from "../components/tables/TrainingTable";
 
-function Traininglist() {
+function TraininglistPage() {
   const [Trainings, setTrainings] = useState<Training[]>([]);
 
   useEffect(() => {
@@ -36,4 +36,4 @@ function Traininglist() {
   );
 }
 
-export default Traininglist;
+export default TraininglistPage;

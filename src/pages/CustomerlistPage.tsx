@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Customer } from "../types";
-import Customertable from "../components/Customertable";
-import AddCustomer from "../components/AddCustomerDialog"; // Adjust the path as needed
+import Customertable from "../components/tables/Customertable";
+import AddCustomer from "../components/dialogs/AddCustomer"; // Adjust the path as needed
 
-function Customerlist() {
+function CustomerlistPage() {
   const [customers, setCustomers] = useState<Customer[]>([]);
 
   useEffect(() => {
@@ -38,4 +38,4 @@ function Customerlist() {
   );
 }
 
-export default Customerlist;
+export default CustomerlistPage;

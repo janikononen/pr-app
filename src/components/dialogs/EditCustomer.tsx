@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CustomerDTO, EditCustomerProps } from "../types";
+import { CustomerDTO, EditCustomerProps } from "../../types";
 import {
   Button,
   Dialog,
@@ -61,13 +61,13 @@ export default function AddCustomer(props: EditCustomerProps) {
 
   // kentät dialogille jotta vältytään boilerplatelta
   const fields = [
-    { id: "firstname", label: "First Name", type: "text" },
-    { id: "lastname", label: "Last Name", type: "text" },
-    { id: "streetaddress", label: "Street Address", type: "text" },
-    { id: "postcode", label: "Postcode", type: "text" },
-    { id: "city", label: "City", type: "text" },
-    { id: "email", label: "Email Address", type: "email" },
-    { id: "phone", label: "Phone Number", type: "text" },
+    { id: "firstname", label: "First Name" },
+    { id: "lastname", label: "Last Name" },
+    { id: "streetaddress", label: "Street Address" },
+    { id: "postcode", label: "Postcode" },
+    { id: "city", label: "City" },
+    { id: "email", label: "Email Address" },
+    { id: "phone", label: "Phone Number" },
   ];
 
   return (
@@ -82,16 +82,11 @@ export default function AddCustomer(props: EditCustomerProps) {
         <DialogContent>
           {fields.map((field) => (
             <TextField
-              key={field.id}
-              autoFocus={field.id === "firstname"}
-              required={true}
+              required
               margin="dense"
               id={field.id}
-              name={field.id}
               label={field.label}
-              type={field.type}
               fullWidth
-              variant="standard"
               value={customer[field.id as keyof CustomerDTO]}
               onChange={(e) =>
                 setCustomer({ ...customer, [field.id]: e.target.value })

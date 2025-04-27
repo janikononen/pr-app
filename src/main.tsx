@@ -3,8 +3,8 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Customerlist from "./pages/Customerlist.tsx";
-import Traininglist from "./pages/Traininglist.tsx";
+import CustomerlistPage from "./pages/CustomerlistPage.tsx";
+import TraininglistPage from "./pages/TraininglistPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -12,12 +12,12 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        element: <Traininglist />,
+        element: <TraininglistPage />,
         index: true,
       },
       {
         path: "customerlist",
-        element: <Customerlist />,
+        element: <CustomerlistPage />,
       },
     ],
   },

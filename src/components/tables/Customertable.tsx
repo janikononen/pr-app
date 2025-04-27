@@ -1,5 +1,4 @@
-import { TrainingTableProps } from "../types";
-import dayjs from "dayjs";
+import { Customer, CustomerDataProps } from "../../types";
 import {
   DataGrid,
   GridActionsCellItem,
@@ -8,47 +7,50 @@ import {
 } from "@mui/x-data-grid";
 import { Box, Snackbar } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditCustomer from "../dialogs/EditCustomer";
 import { useState } from "react";
+import AddTrainingToCustomerDialog from "../dialogs/AddTrainingFromCustomerDialog";
 
-export default function TrainingTable(props: TrainingTableProps) {
+export default function Customertable(props: CustomerDataProps) {
   const [deleteOpenSnack, setDeleteOpenSnack] = useState(false);
-
-  //päivämäärämuotoilija dayjs
-  const dateFormatter = (dateString: string) => {
-    return dayjs(dateString).format("DD.MM.YYYY");
-  };
-
   // sarakkeet taulukossa
-  const columns: GridColDef<(typeof props.trainingsData)[number]>[] = [
+  const columns: GridColDef<(typeof props.customersData)[number]>[] = [
     {
-      field: "date",
-      headerName: "Date",
+      field: "firstname",
+      headerName: "First Name",
       flex: 1,
-      valueGetter: (_, trainingsData) => dateFormatter(trainingsData.date),
     },
-    { field: "activity", headerName: "Activity", flex: 1 },
+    { field: "lastname", headerName: "Last Name", flex: 1 },
     {
-      field: "customer",
-      headerName: "Customer",
+      field: "streetaddress",
+      headerName: "Street Address",
       flex: 1,
-      valueGetter: (_, trainingsData) =>
-        trainingsData.customer.firstname +
-        " " +
-        trainingsData.customer.lastname,
     },
-    { field: "duration", headerName: "Duration(min)", flex: 1 },
+
+    { field: "postcode", headerName: "Postcode", flex: 0.6 },
+    { field: "city", headerName: "City", flex: 0.8 },
+    { field: "email", headerName: "Email", flex: 1.2 },
+    { field: "phone", headerName: "Phone", flex: 0.8 },
     {
       field: "actions",
       headerName: "Actions",
-      flex: 0.4,
+      flex: 0.8,
       sortable: false,
       renderCell: (params: GridRenderCellParams) => {
         return (
           <>
+            <EditCustomer
+              customer={params.row as Customer}
+              fetchCustomers={props.fetschCustomers}
+            />
             <GridActionsCellItem
               icon={<DeleteIcon />}
               label="Delete"
               onClick={() => handleDelete(params)}
+            />
+            <AddTrainingToCustomerDialog
+              customer={params.row as Customer}
+              fetchCustomers={props.fetschCustomers}
             />
           </>
         );
@@ -58,19 +60,15 @@ export default function TrainingTable(props: TrainingTableProps) {
 
   const handleDelete = (params: GridRenderCellParams) => {
     if (window.confirm("Are you sure?")) {
-      fetch(
-        "https://customer-rest-service-frontend-personaltrainer.2.rahtiapp.fi/api/trainings/" +
-          params.id,
-        {
-          method: "DELETE",
-        }
-      )
+      fetch((params.row as Customer)._links.self.href, {
+        method: "DELETE",
+      })
         .then((response) => {
           if (!response.ok) throw new Error("response was not ok");
           return response.json();
         })
         .then(() => setDeleteOpenSnack(true))
-        .then(() => props.fetchTrainings())
+        .then(() => props.fetschCustomers())
         .catch((e) => console.log(e));
     }
   };
@@ -79,9 +77,9 @@ export default function TrainingTable(props: TrainingTableProps) {
   return (
     <Box sx={{ height: "100%", width: "100%" }}>
       <DataGrid
-        rows={props.trainingsData}
+        rows={props.customersData}
         columns={columns}
-        getRowId={(row) => row.id}
+        getRowId={(customersData) => customersData._links.self.href}
         initialState={{
           pagination: {
             paginationModel: {
@@ -95,7 +93,7 @@ export default function TrainingTable(props: TrainingTableProps) {
         open={deleteOpenSnack}
         autoHideDuration={4000}
         onClose={() => setDeleteOpenSnack(false)}
-        message="Training deleted!"
+        message="Customer deleted!"
       />
     </Box>
   );
