@@ -13,18 +13,21 @@ import { useState } from "react";
 export default function TrainingTable(props: TrainingTableProps) {
   const [deleteOpenSnack, setDeleteOpenSnack] = useState(false);
 
-  //päivämäärämuotoilija dayjs
-  const dateFormatter = (dateString: string) => {
-    return dayjs(dateString).format("DD.MM.YYYY");
-  };
-
   // sarakkeet taulukossa
   const columns: GridColDef<(typeof props.trainingsData)[number]>[] = [
     {
       field: "date",
       headerName: "Date",
-      flex: 1,
-      valueGetter: (_, trainingsData) => dateFormatter(trainingsData.date),
+      flex: 0.7,
+      valueGetter: (_, trainingsData) =>
+        dayjs(trainingsData.date).format("DD.MM.YYYY"),
+    },
+    {
+      field: "time",
+      headerName: "Time",
+      flex: 0.5,
+      valueGetter: (_, trainingsData) =>
+        dayjs(trainingsData.date).format("HH:mm"),
     },
     { field: "activity", headerName: "Activity", flex: 1 },
     {

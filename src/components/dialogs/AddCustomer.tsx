@@ -10,19 +10,12 @@ import {
   TextField,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import { defaultCustomer, fields } from "./fieldDefinitions";
 
 export default function AddCustomer(props: CustomerDataProps) {
   const [open, setOpen] = useState(false);
   const [openSnack, setOpenSnack] = useState(false);
-  const [customer, setCustomer] = useState<CustomerDTO>({
-    firstname: "",
-    lastname: "",
-    streetaddress: "",
-    postcode: "",
-    city: "",
-    email: "",
-    phone: "",
-  });
+  const [customer, setCustomer] = useState<CustomerDTO>(defaultCustomer);
 
   const handleOpen = () => {
     setOpen(true);
@@ -30,20 +23,10 @@ export default function AddCustomer(props: CustomerDataProps) {
   const handleClose = () => {
     setOpen(false);
   };
-  const handleAfterSubmit = () => {
-    setCustomer({
-      firstname: "",
-      lastname: "",
-      streetaddress: "",
-      postcode: "",
-      city: "",
-      email: "",
-      phone: "",
-    });
-  };
 
   const handleSubmit = () => {
     //validointi
+    // tästä erillinen funktio koska käytetään useammassa funktiossa
     const isFormValid = Object.values(customer).every(
       (value) => value.trim() !== ""
     );
@@ -66,24 +49,15 @@ export default function AddCustomer(props: CustomerDataProps) {
         if (!Response.ok) throw new Error("response was not ok");
         return Response.json();
       })
-      .then(() => handleAfterSubmit())
+      .then(() => setCustomer(defaultCustomer))
       .then(() => props.fetschCustomers())
       .then(() => handleClose())
       .then(() => setOpenSnack(true))
       .catch((e) => console.log(e));
   };
-
-  // kentät dialogille jotta vältytään boilerplatelta
-  const fields = [
-    { id: "firstname", label: "First Name" },
-    { id: "lastname", label: "Last Name" },
-    { id: "streetaddress", label: "Street Address" },
-    { id: "postcode", label: "Postcode" },
-    { id: "city", label: "City" },
-    { id: "email", label: "Email Address" },
-    { id: "phone", label: "Phone Number" },
-  ];
-
+  //fieldit määritellään fieldDefinitions.ts tiedostossa
+  //dialogi voidaan päivittää komponentilla jolle välitetään joko tyhjä customer tai costomer jolla on arvot!!!
+  //snackbarista voisi tehdä erillisen komponentin
   return (
     <>
       <Button

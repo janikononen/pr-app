@@ -1,0 +1,32 @@
+/* kalenteriin tehtyjä omia tyyliluokkia */
+.calendarEvent {
+  background-color: #eaf2fa;
+  border: 1px solid #ccc;
+  margin: 2px;
+  flex:1;
+  border-radius: 5px;
+  text-align: center;
+  font-size: small;
+
+}
+.calendarEvent .EventLine {
+  padding: 0;
+  margin:0;
+}
+.calendarEvent:hover {
+  border-color: #90caff;
+  cursor: pointer;
+}
+/* liittyen fullcalendarin tyylityksiin */
+.fc-event {
+  --fc-event-text-color: #212121;
+}
+
+.fc-v-event {
+--fc-event-border-color: none;
+--fc-event-bg-color: none 
+}
+
+.fc-daygrid-day-bottom {
+  background-color: #eaf2fa;
+}

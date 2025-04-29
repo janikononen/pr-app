@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Customer } from "../types";
 import Customertable from "../components/tables/Customertable";
 import AddCustomer from "../components/dialogs/AddCustomer"; // Adjust the path as needed
+import ToCsvFile from "../components/otherComponents/ToCsvFile";
 
 function CustomerlistPage() {
   const [customers, setCustomers] = useState<Customer[]>([]);
@@ -30,6 +31,7 @@ function CustomerlistPage() {
     <div>
       <h1>Customer List</h1>
       <AddCustomer fetschCustomers={fetchCustomers} customersData={customers} />
+      <ToCsvFile customersData={customers} fetschCustomers={fetchCustomers} />
       <Customertable
         customersData={customers}
         fetschCustomers={fetchCustomers}

@@ -11,8 +11,9 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { GridActionsCellItem } from "@mui/x-data-grid";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 
 export default function AddTrainingToCustomerDialog(props: EditCustomerProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -65,7 +66,7 @@ export default function AddTrainingToCustomerDialog(props: EditCustomerProps) {
       .then(() => setOpenSnack(true))
       .catch((e) => console.log(e));
   };
-
+  //snackbarista voisi tehdä erillisen komponentin
   return (
     <>
       <GridActionsCellItem
@@ -77,7 +78,8 @@ export default function AddTrainingToCustomerDialog(props: EditCustomerProps) {
         <DialogTitle>Add Training</DialogTitle>
         <DialogContent>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
+            <DateTimePicker
+              value={dayjs(training.date)}
               onChange={(e) =>
                 setTraining({ ...training, date: e?.toISOString() || "" })
               }

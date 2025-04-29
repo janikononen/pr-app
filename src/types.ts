@@ -6,6 +6,23 @@ export type Training = {
     customer: Customer;
 }
 
+export type TrainingEvent = {
+    id: number;
+    start: Date;
+    end: Date;
+    title: string;
+    customer: Customer;
+}
+
+export type CalendarEvent = {
+    start: Date;
+    end: Date;
+    title: string;
+    extendedProps: {
+        customerName: string;
+    }
+}
+
 export type Customer = {
     id: number;
     firstname: string;

@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import { GridActionsCellItem } from "@mui/x-data-grid";
+import { fields } from "./fieldDefinitions";
 
 export default function AddCustomer(props: EditCustomerProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -58,18 +59,9 @@ export default function AddCustomer(props: EditCustomerProps) {
       .then(() => setOpenSnack(true))
       .catch((e) => console.log(e));
   };
-
-  // kentät dialogille jotta vältytään boilerplatelta
-  const fields = [
-    { id: "firstname", label: "First Name" },
-    { id: "lastname", label: "Last Name" },
-    { id: "streetaddress", label: "Street Address" },
-    { id: "postcode", label: "Postcode" },
-    { id: "city", label: "City" },
-    { id: "email", label: "Email Address" },
-    { id: "phone", label: "Phone Number" },
-  ];
-
+  //fieldit määritellään fieldDefinitions.ts tiedostossa
+  //dialogi voidaan päivittää komponentilla jolle välitetään joko tyhjä customer tai costomer jolla on arvot!!!
+  //snackbarista voisi tehdä erillisen komponentin
   return (
     <>
       <GridActionsCellItem
