@@ -1,4 +1,4 @@
-#PR-frontend
+# PR-frontend
 Projektin tarkoituksena ja tavoitteena oli luoda käyttöliittymä back-endille jonka avulla voidaan muokata tietokannan tilaa crud-toiminnoilla, sekä näyttää käyttäjälle dataa taulukoiden, kalenterin ja graafin muodossa.
 
 ## Käytetyt kirjastot ja niiden käyttötarkoitukset
