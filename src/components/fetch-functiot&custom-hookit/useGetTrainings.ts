@@ -11,7 +11,7 @@ export function useGetTranings() {
   // fetch-funktio treenien hakemiseen
   const fetchTrainings = () => {
     fetch(
-      "https://customer-rest-service-frontend-personaltrainer.2.rahtiapp.fi/api/gettrainings"
+      `${import.meta.env.VITE_API_URL}gettrainings`
     )
       .then((Response) => {
         if (Response.ok) return Response.json();

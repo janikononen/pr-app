@@ -48,16 +48,13 @@ export default function AddTrainingToCustomerDialog(props: EditCustomerProps) {
       return;
     }
     //http-pyyntö
-    fetch(
-      "https://customer-rest-service-frontend-personaltrainer.2.rahtiapp.fi/api/trainings",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(training),
-      }
-    )
+    fetch(`${import.meta.env.VITE_API_URL}trainings`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(training),
+    })
       .then((Response) => {
         if (!Response.ok) throw new Error("response was not ok");
         return Response.json();

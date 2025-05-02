@@ -16,6 +16,9 @@ function Navbar() {
           <Link className="navbaritem" to={"/trainingsCalendar"}>
             Trainings Calendar
           </Link>
+          <Link className="navbaritem" to={"/trainingsChart"}>
+            Trainings Chart
+          </Link>
         </nav>
       </Toolbar>
     </AppBar>

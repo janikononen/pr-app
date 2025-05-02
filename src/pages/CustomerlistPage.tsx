@@ -9,12 +9,11 @@ function CustomerlistPage() {
 
   useEffect(() => {
     fetchCustomers();
+    document.title = "Customer List";
   }, []);
 
   const fetchCustomers = () => {
-    fetch(
-      "https://customer-rest-service-frontend-personaltrainer.2.rahtiapp.fi/api/customers"
-    )
+    fetch(`${import.meta.env.VITE_API_URL}customers`)
       .then((Response) => {
         if (Response.ok) return Response.json();
         throw new Error("response was not ok");
@@ -30,12 +29,18 @@ function CustomerlistPage() {
   return (
     <div>
       <h1>Customer List</h1>
-      <AddCustomer fetschCustomers={fetchCustomers} customersData={customers} />
-      <ToCsvFile customersData={customers} fetschCustomers={fetchCustomers} />
-      <Customertable
-        customersData={customers}
-        fetschCustomers={fetchCustomers}
-      />
+      <p> Here is a list of customers</p>
+      <div>
+        <AddCustomer
+          fetschCustomers={fetchCustomers}
+          customersData={customers}
+        />
+        <ToCsvFile customersData={customers} fetschCustomers={fetchCustomers} />
+        <Customertable
+          customersData={customers}
+          fetschCustomers={fetchCustomers}
+        />
+      </div>
     </div>
   );
 }

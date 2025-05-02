@@ -62,13 +62,9 @@ export default function TrainingTable(props: TrainingTableProps) {
   // funktionaalisuus delete-napille
   const handleDelete = (params: GridRenderCellParams) => {
     if (window.confirm("Are you sure?")) {
-      fetch(
-        "https://customer-rest-service-frontend-personaltrainer.2.rahtiapp.fi/api/trainings/" +
-          params.id,
-        {
-          method: "DELETE",
-        }
-      )
+      fetch(`${import.meta.env.VITE_API_URL}trainings/` + params.id, {
+        method: "DELETE",
+      })
         .then((response) => {
           if (!response.ok) throw new Error("response was not ok");
           return response.json();

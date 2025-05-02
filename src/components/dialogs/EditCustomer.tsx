@@ -13,7 +13,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import { fields } from "./fieldDefinitions";
 
-export default function AddCustomer(props: EditCustomerProps) {
+export default function EditCustomer(props: EditCustomerProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [openSnack, setOpenSnack] = useState(false);
   const [customer, setCustomer] = useState<CustomerDTO>({

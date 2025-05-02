@@ -35,16 +35,13 @@ export default function AddCustomer(props: CustomerDataProps) {
       return;
     }
     //http-pyyntö
-    fetch(
-      "https://customer-rest-service-frontend-personaltrainer.2.rahtiapp.fi/api/customers",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(customer),
-      }
-    )
+    fetch(`${import.meta.env.VITE_API_URL}customers`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(customer),
+    })
       .then((Response) => {
         if (!Response.ok) throw new Error("response was not ok");
         return Response.json();

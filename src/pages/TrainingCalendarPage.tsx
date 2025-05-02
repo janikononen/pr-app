@@ -6,7 +6,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { useEffect, useState } from "react";
 import { CalendarEvent } from "../types";
-import "../cssFile.css";
+import "../calendar.css";
 
 export default function CalendarPage() {
   const { trainings } = useGetTranings();
@@ -14,6 +14,7 @@ export default function CalendarPage() {
 
   // luodaan kalenteria varten lista tapahtumista
   useEffect(() => {
+    document.title = "Training Calendar";
     if (trainings && trainings.length > 0) {
       const newEvents = trainings.map((training) => ({
         start: dayjs(training.date).toDate(),
@@ -47,7 +48,7 @@ export default function CalendarPage() {
 
   return (
     <div>
-      <h1>Calendar</h1>
+      <h1>Training Calendar</h1>
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         headerToolbar={{

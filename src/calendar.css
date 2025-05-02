@@ -17,6 +17,7 @@
   border-color: #90caff;
   cursor: pointer;
 }
+
 /* liittyen fullcalendarin tyylityksiin */
 .fc-event {
   --fc-event-text-color: #212121;
