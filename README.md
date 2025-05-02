@@ -22,3 +22,7 @@ Tässä projektissa käytettiin useita kirjastoja React-sovelluksen rakentamisee
 
 ### ⚙️ Vite + TypeScript
 
+### 🚀 Netlify
+- **Tarkoitus:** Sovellus on julkaistu Netlify-alustan kautta.
+
+
