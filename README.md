@@ -1,54 +1,24 @@
-# React + TypeScript + Vite
+#PR-frontend
+Projektin tarkoituksena ja tavoitteena oli luoda käyttöliittymä back-endille jonka avulla voidaan muokata tietokannan tilaa crud-toiminnoilla, sekä näyttää käyttäjälle dataa taulukoiden, kalenterin ja graafin muodossa.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Käytetyt kirjastot ja niiden käyttötarkoitukset
+Tässä projektissa käytettiin useita kirjastoja React-sovelluksen rakentamiseen, kalenteritoiminnallisuuteen, käyttöliittymän suunnitteluun ja datan käsittelyyn:
 
-Currently, two official plugins are available:
+### 📊 MUI (Material UI)
+- **Kirjastot:** `@mui/material`, `@mui/icons-material`, `@mui/x-data-grid`, `@mui/x-date-pickers`, `@mui/x-charts`
+- **Tarkoitus:** Käyttöliittymäkomponentit ja -tyylit, kuten taulukot, kuvakkeet, päivämäärävalitsimet ja kaaviot. Tarjoaa modernin ja yhtenäisen ulkoasun. Käytin tätä kaikissa paitsi kalenterissa.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 📅 FullCalendar
+- **Tarkoitus:** Kalenterin näyttäminen ja tapahtumien hallinta. FullCalendar mahdollistaa kuukausi- ja viikkonäkymät sekä tapahtumien raahaamisen ja valitsemisen.
 
-## Expanding the ESLint configuration
+### 🧩 Lodash
+- **Tarkoitus:** Apuohjelmat taulukoiden, objektien ja muiden tietorakenteiden käsittelyyn, kuten ryhmittelyyn tai lajitteluun.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 🕒 Day.js
+- **Tarkoitus:** Kevyt ja nopea päivämäärien käsittelykirjasto, käytetty esimerkiksi tapahtumien aikojen muotoiluun ja vertailuun.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### 📄 React CSV
+- **Tarkoitus:** Mahdollistaa datan lataamisen CSV-muodossa suoraan käyttöliittymästä.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### ⚙️ Vite + TypeScript
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
