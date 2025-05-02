@@ -1,4 +1,5 @@
-  export const fields = [
+ // tekstikentät customerin dialogille
+ export const fields = [
     { id: "firstname", label: "First Name" },
     { id: "lastname", label: "Last Name" },
     { id: "streetaddress", label: "Street Address" },
@@ -8,6 +9,7 @@
     { id: "phone", label: "Phone Number" },
   ];
 
+  // default customerin arvot
   export const defaultCustomer = {
     firstname: "",
     lastname: "",

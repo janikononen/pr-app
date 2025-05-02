@@ -58,6 +58,7 @@ export default function Customertable(props: CustomerDataProps) {
     },
   ];
 
+  // delete funktionaalisuus
   const handleDelete = (params: GridRenderCellParams) => {
     if (window.confirm("Are you sure?")) {
       fetch((params.row as Customer)._links.self.href, {

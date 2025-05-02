@@ -4,6 +4,7 @@ import { Button } from "@mui/material";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import { useEffect, useState } from "react";
 
+// funktionaalisuus csv tiedoston luomiseen
 export default function ToCsvFile(props: CustomerDataProps) {
   const [customerData, setCustomerData] = useState<CustomerDTO[]>([]);
 

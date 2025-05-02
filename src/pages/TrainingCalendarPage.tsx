@@ -62,8 +62,22 @@ export default function CalendarPage() {
         selectable={true}
         dayMaxEvents={true}
         weekends={true}
+        // luodaan toiminnnallisuus, että kun käyttäjä klikkaa tapahtumaa, se avaa ikkunan
+        // jossa näkyy tapahtuman tiedot
         eventClick={(info) => {
-          alert("Clicked on event: " + info.event.title);
+          alert(
+            "Event: " +
+              info.event.title +
+              "\n" +
+              "Customer: " +
+              info.event.extendedProps.customerName +
+              "\n" +
+              "Start: " +
+              dayjs(info.event.start).format("hh.mm") +
+              "\n" +
+              "End: " +
+              dayjs(info.event.end).format("hh.mm")
+          );
         }}
         eventContent={renderEventContent}
       />

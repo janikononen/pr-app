@@ -12,6 +12,7 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import { fields } from "./fieldDefinitions";
+import { validateCustomerData } from "../fetch-functiot&custom-hookit/functions";
 
 export default function EditCustomer(props: EditCustomerProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -30,19 +31,15 @@ export default function EditCustomer(props: EditCustomerProps) {
     setDialogOpen(true);
   };
   const handleCloseDialog = () => {
+    setCustomer({ ...props.customer });
     setDialogOpen(false);
   };
 
   const handleSubmit = () => {
-    //validointi
-    const isFormValid = Object.values(customer).every(
-      (value) => value.trim() !== ""
-    );
-    if (!isFormValid) {
+    if (!validateCustomerData(customer)) {
       alert("Please fill in all fields before submitting.");
       return;
     }
-    //http-pyyntö
     fetch(`${props.customer._links.self.href}`, {
       method: "PUT",
       headers: {
@@ -60,8 +57,6 @@ export default function EditCustomer(props: EditCustomerProps) {
       .catch((e) => console.log(e));
   };
   //fieldit määritellään fieldDefinitions.ts tiedostossa
-  //dialogi voidaan päivittää komponentilla jolle välitetään joko tyhjä customer tai costomer jolla on arvot!!!
-  //snackbarista voisi tehdä erillisen komponentin
   return (
     <>
       <GridActionsCellItem

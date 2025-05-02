@@ -1,7 +1,7 @@
 import { AppBar, Toolbar } from "@mui/material";
 import { Link } from "react-router-dom";
 
-//navigointi sivujen välillä
+//Navbar komponentti joka renderöi navigointipalkin
 function Navbar() {
   return (
     <AppBar position="static" color="inherit">

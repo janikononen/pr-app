@@ -14,40 +14,34 @@ import { GridActionsCellItem } from "@mui/x-data-grid";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
+import { validateCustomerData } from "../fetch-functiot&custom-hookit/functions";
 
 export default function AddTrainingToCustomerDialog(props: EditCustomerProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [openSnack, setOpenSnack] = useState(false);
-  const [training, setTraining] = useState<TrainingDTO>({
+
+  const defaultTraining: TrainingDTO = {
     date: "",
     duration: "",
     activity: "",
     customer: props.customer._links.self.href,
-  });
+  };
+  const [training, setTraining] = useState<TrainingDTO>({ ...defaultTraining });
 
   const handleOpenDialog = () => {
     setDialogOpen(true);
   };
   const handleCloseDialog = () => {
-    setTraining({
-      date: "",
-      duration: "",
-      activity: "",
-      customer: props.customer._links.self.href,
-    });
+    setTraining({ ...defaultTraining });
     setDialogOpen(false);
   };
 
+  // määritellään submit funktionaalisuus
   const handleSubmit = () => {
-    //validointi
-    const isFormValid = Object.values(training).every(
-      (value) => value.trim() !== ""
-    );
-    if (!isFormValid) {
+    if (!validateCustomerData(training)) {
       alert("Please fill in all fields before submitting.");
       return;
     }
-    //http-pyyntö
     fetch(`${import.meta.env.VITE_API_URL}trainings`, {
       method: "POST",
       headers: {
@@ -63,7 +57,8 @@ export default function AddTrainingToCustomerDialog(props: EditCustomerProps) {
       .then(() => setOpenSnack(true))
       .catch((e) => console.log(e));
   };
-  //snackbarista voisi tehdä erillisen komponentin
+
+  // voisi lisätä toiminnallisuuden että ei voi varata treenauksia menneistyyteen
   return (
     <>
       <GridActionsCellItem
