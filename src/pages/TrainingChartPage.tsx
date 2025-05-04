@@ -9,6 +9,7 @@ export default function TrainingChartPage() {
     { type: string; minutes: number | null }[]
   >([]);
 
+  // funktionaalisuus liittyen treenien yhteenlaskentaan ja lajitteluun sekä datan muotoiluun charttia varten
   useEffect(() => {
     document.title = "Training Chart";
     if (trainings.length > 0) {

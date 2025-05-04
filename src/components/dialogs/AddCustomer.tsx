@@ -49,8 +49,7 @@ export default function AddCustomer(props: CustomerDataProps) {
       .then(() => setOpenSnack(true))
       .catch((e) => console.log(e));
   };
-  //fieldit määritellään fieldDefinitions.ts tiedostossa
-  //dialogi voidaan päivittää komponentilla jolle välitetään joko tyhjä customer tai costomer jolla on arvot!!!
+  //fieldit määritellään fieldDefinitions.ts tiedostossa!
   return (
     <>
       <Button

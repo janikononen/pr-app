@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CustomerDTO, EditCustomerProps } from "../../types";
 import {
   Button,
@@ -17,7 +17,8 @@ import { validateCustomerData } from "../fetch-functiot&custom-hookit/functions"
 export default function EditCustomer(props: EditCustomerProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [openSnack, setOpenSnack] = useState(false);
-  const [customer, setCustomer] = useState<CustomerDTO>({
+
+  const defaultCustomer: CustomerDTO = {
     firstname: props.customer.firstname,
     lastname: props.customer.lastname,
     streetaddress: props.customer.streetaddress,
@@ -25,7 +26,14 @@ export default function EditCustomer(props: EditCustomerProps) {
     city: props.customer.city,
     email: props.customer.email,
     phone: props.customer.phone,
-  });
+  };
+
+  const [customer, setCustomer] = useState<CustomerDTO>(defaultCustomer);
+
+  useEffect(() => {
+    setCustomer(defaultCustomer);
+    console.log("defaultCustomer", defaultCustomer);
+  }, [props.customer]);
 
   const handleOpenDialog = () => {
     setDialogOpen(true);
